@@ -22,8 +22,10 @@ repositories {
 }
 
 dependencies {
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("com.h2database:h2")
@@ -32,6 +34,11 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
+tasks.withType<JavaCompile> {
+    options.compilerArgs.add("--enable-preview")
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
+    jvmArgs("--enable-preview")
 }
