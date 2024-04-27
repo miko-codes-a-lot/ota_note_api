@@ -161,4 +161,21 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
                 .status(apiError.getStatus())
                 .build();
     }
+
+    /**
+     * Handles unknown {@link Exception} and treat it as "Unknown Server Exception"
+     * @param ex The {@link Exception} thrown
+     * @return {@link ResponseEntity} with error details
+     */
+    @ExceptionHandler({ Exception.class })
+    public ResponseEntity<Object> handleUnknownException(Exception ex) {
+        val message = ex.getLocalizedMessage();
+        val apiError = new ApiErrorDTO(HttpStatus.INTERNAL_SERVER_ERROR, message, message);
+
+        return Response.builder()
+                .body(apiError)
+                .headers(new HttpHeaders())
+                .status(apiError.getStatus())
+                .build();
+    }
 }
