@@ -11,6 +11,10 @@ public class Response<T> extends ResponseEntity<T> {
         super(body, headers, status);
     }
 
+    public Response(HttpStatus status, MultiValueMap<String, String> headers) {
+        super(null, headers, status);
+    }
+
     public static <T> ResponseBuilder<T> builder() {
         return new ResponseBuilder<T>();
     }
@@ -37,6 +41,10 @@ public class Response<T> extends ResponseEntity<T> {
 
         public Response<T> build() {
             return new Response<>(body, headers, status);
+        }
+
+        public Response<Void> buildV() {
+            return new Response<>(status, headers);
         }
     }
 }
