@@ -3,7 +3,7 @@ package com.ota.api.note.models.dto;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -23,7 +23,7 @@ public class ApiErrorDTO {
         super();
         this.status = status;
         this.message = message;
-        this.errors = Arrays.asList(error);
+        this.errors = Collections.singletonList(error);
     }
 
 }
