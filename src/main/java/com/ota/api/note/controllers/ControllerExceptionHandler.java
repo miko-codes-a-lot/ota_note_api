@@ -1,5 +1,6 @@
-package com.ota.api.note.controllers.advisors;
+package com.ota.api.note.controllers;
 
+import com.ota.api.note.exceptions.NotFound;
 import com.ota.api.note.models.dto.ApiErrorDTO;
 import com.ota.api.note.spring.Response;
 import jakarta.validation.ConstraintViolation;
@@ -36,7 +37,7 @@ import java.util.Optional;
  * {@since 2024-04-27}
  */
 @ControllerAdvice
-public class SpringExceptionHandler extends ResponseEntityExceptionHandler {
+public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     /**
      * Handles {@link MethodArgumentNotValidException} by extracting field and global errors
      * and building a user-friendly error response.
@@ -135,6 +136,24 @@ public class SpringExceptionHandler extends ResponseEntityExceptionHandler {
                 STR."\{ex.getName()} should be of type \{name}";
         val apiError =
                 new ApiErrorDTO(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
+
+        return Response.builder()
+                .body(apiError)
+                .headers(new HttpHeaders())
+                .status(apiError.getStatus())
+                .build();
+    }
+
+    /**
+     * Handles {@link NotFound} by building a user-friendly error response.
+     *
+     * @param ex      The {@link NotFound} thrown
+     * @return {@link ResponseEntity} with error details
+     */
+    @ExceptionHandler({ NotFound.class })
+    public ResponseEntity<Object> handleResourceNotFound(NotFound ex) {
+        val message = ex.getLocalizedMessage();
+        val apiError = new ApiErrorDTO(HttpStatus.NOT_FOUND, message, message);
 
         return Response.builder()
                 .body(apiError)
