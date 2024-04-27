@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Controller advice class that provides guidance on handling specific exceptions globally.
@@ -127,8 +128,11 @@ public class SpringExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleMethodArgumentTypeMismatch(
             MethodArgumentTypeMismatchException ex
     ) {
+        val name = Optional.ofNullable(ex.getRequiredType())
+                .map(Class::getName)
+                .orElse("");
         String error =
-                STR."\{ex.getName()} should be of type \{ex.getRequiredType().getName()}";
+                STR."\{ex.getName()} should be of type \{name}";
         val apiError =
                 new ApiErrorDTO(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
 
