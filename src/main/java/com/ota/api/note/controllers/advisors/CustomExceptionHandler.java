@@ -1,4 +1,4 @@
-package com.ota.api.note.controllers.advice;
+package com.ota.api.note.controllers.advisors;
 
 import com.ota.api.note.exceptions.NotFound;
 import com.ota.api.note.models.dto.ApiErrorDTO;
