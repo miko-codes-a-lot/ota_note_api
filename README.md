@@ -1,6 +1,6 @@
 # OTA Note RESTful API
 
-This project is a simple implementation of a RESTful API with in-memory database using Spring Boot, inspired by Uncle Bob's Clean Architecture principles and because of this we could easily add tests for our controllers.
+This project is a simple implementation of a RESTful API with in-memory database using Spring Boot, inspired by Uncle Bob's Clean Architecture principles and because of this we could easily add any kinds of automation testing.
 
 The repository setup is very simple, no git flow constraint and CI/CD in place, I have mostly focused on trying to create a clean foundation in the hopes to scale this project one day, as a result we can easily perform unit testing or implementation testing.
 
