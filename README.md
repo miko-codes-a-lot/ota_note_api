@@ -4,6 +4,8 @@ This project is a simple implementation of a RESTful API with in-memory database
 
 The repository setup is very simple, no git flow constraint and CI/CD in place, I have mostly focused on trying to create a clean foundation in the hopes to scale this project one day, as a result we can easily perform unit testing or implementation testing.
 
+I have as much as possible decoupled the errors that the clients can receive by having my own domain specific exceptions that is designed to be understood by anyone, to improve developer experience I had to also customize the Console errors as well to be formatted as JSON and to keep things simple I logged the request & response to the same in-memory database.
+
 **`Implementation Testing`** as a result of a decoupled code base
 
 ![Implementation Testing](https://gcdnb.pbrd.co/images/l1wZX8Z3l09i.png)
