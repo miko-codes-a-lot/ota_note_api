@@ -1,5 +1,6 @@
 package com.ota.api.note.services;
 
+import com.ota.api.note.errors.NotFoundError;
 import com.ota.api.note.errors.SimpleError;
 import com.ota.api.note.mapper.NoteMapper;
 import com.ota.api.note.models.dto.NoteDTO;
@@ -30,6 +31,13 @@ public class NoteServiceImpl implements NoteService {
     public NoteServiceImpl(NoteRepository noteRepository, NoteMapper noteMapper) {
         this.noteRepository = noteRepository;
         this.noteMapper = noteMapper;
+    }
+
+    @Override
+    public NoteDTO findOne(Long id) {
+        return this.noteRepository.findById(id)
+                .map(noteMapper::toDTO)
+                .orElseThrow(() -> new NotFoundError("Note not found"));
     }
 
     public NoteDTO create(NoteDTO noteDTO) {

@@ -57,19 +57,11 @@ public class NoteController {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorDTO.class)) })
     })
     @GetMapping("/{id}")
-    public ResponseEntity<NoteDTO> findById(@PathVariable long id) {
-        if (id == 0) {
-            throw new NotFoundError(NOTE_NOT_FOUND);
-        }
-
-        log.info(STR."username: \{config.tracingIdKey()}");
+    public ResponseEntity<NoteDTO> findById(@PathVariable Long id) {
+        val note = this.noteService.findOne(id);
 
         return new ResponseEntity<>(
-                NoteDTO.builder()
-                        .id(10L)
-                        .title("")
-                        .body("")
-                        .build(),
+                note,
                 HttpStatus.OK
         );
     }

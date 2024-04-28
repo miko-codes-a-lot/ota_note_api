@@ -6,6 +6,7 @@ import com.ota.api.note.models.dto.PaginatedDTO;
 
 public interface NoteService {
     NoteDTO create(NoteDTO noteDTO);
+    NoteDTO findOne(Long id);
     PaginatedDTO<NoteDTO> findAll(PaginateParamsDTO paginateParams);
 }
 
