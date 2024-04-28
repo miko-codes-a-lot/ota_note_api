@@ -6,6 +6,15 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 
+/**
+ * Response is a custom ResponseEntity subclass designed to enhance the readability and usability
+ * of ResponseEntity in Spring applications.
+ *
+ * @param <T> The type of the response body.
+ *
+ * @author Miko Chu
+ * @since 2024-04-28
+ */
 public class Response<T> extends ResponseEntity<T> {
     public Response(@Nullable T body, MultiValueMap<String, String> headers, HttpStatusCode status) {
         super(body, headers, status);

@@ -4,6 +4,13 @@ package com.ota.api.note.spring;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
+/**
+ * PageRequestBuilder is a builder class for constructing PageRequest objects, which represent
+ * pagination requests in Spring applications.
+ *
+ * @author Miko Chu
+ * @since 2024-04-28
+ */
 public class PageRequestBuilder {
     private int pageNumber;
     private int pageSize;
