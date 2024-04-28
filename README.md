@@ -2,7 +2,13 @@
 
 This project is a simple implementation of a RESTful API with in-memory database using Spring Boot, inspired by Uncle Bob's Clean Architecture principles and because of this we could easily add tests for our controllers.
 
-The repository setup is very simple, no git flow constraint and CI/CD in place, I have mostly focused on trying to create a clean foundation in the hopes to scale this project one day.
+The repository setup is very simple, no git flow constraint and CI/CD in place, I have mostly focused on trying to create a clean foundation in the hopes to scale this project one day, as a result we can easily perform unit testing or implementation testing.
+
+**`Implementation Testing`** as a result of a decoupled code base
+
+![Implementation Testing](https://gcdnb.pbrd.co/images/l1wZX8Z3l09i.png)
+
+_I was supposed to create Unit Tests as well but my time is running out_
 
 ## Getting Started
 
