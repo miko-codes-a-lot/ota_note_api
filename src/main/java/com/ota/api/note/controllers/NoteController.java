@@ -1,7 +1,6 @@
 package com.ota.api.note.controllers;
 
 import com.ota.api.note.Config;
-import com.ota.api.note.errors.NotFoundError;
 import com.ota.api.note.models.dto.ApiErrorDTO;
 import com.ota.api.note.models.dto.NoteDTO;
 import com.ota.api.note.models.dto.PaginateParamsDTO;
@@ -37,8 +36,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/notes")
 public class NoteController {
-    private static final String NOTE_NOT_FOUND = "Note not found.";
-
     private final Config config;
     private final NoteService noteService;
 
@@ -132,10 +129,8 @@ public class NoteController {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorDTO.class)) })
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable long id) throws Exception {
-        if (id == 0) {
-            throw new NotFoundError(NOTE_NOT_FOUND);
-        }
+    public ResponseEntity<Void> delete(@PathVariable Long id) throws Exception {
+        this.noteService.deleteOne(id);
 
         return Response.builder()
                 .status(HttpStatus.NO_CONTENT)

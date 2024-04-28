@@ -73,4 +73,10 @@ public class NoteServiceImpl implements NoteService {
                 .items(notes)
                 .build();
     }
+
+    @Override
+    public void deleteOne(Long id) {
+        findOne(id); // throw an error if not found
+        this.noteRepository.deleteById(id);
+    }
 }
