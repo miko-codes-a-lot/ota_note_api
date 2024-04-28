@@ -136,10 +136,12 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
             MethodArgumentTypeMismatchException ex
     ) {
         val name = Optional.ofNullable(ex.getRequiredType())
-                .map(Class::getName)
-                .orElse("");
-        String error =
-                STR."\{ex.getName()} should be of type \{name}";
+                .map(type -> switch (type.getName()) {
+                    case "java.lang.Long" -> "number";
+                    case "java.lang.String" -> "text";
+                    default -> type.getName();
+                }).orElse("unknown");
+        String error = STR."\{ex.getName()} should be of type \{name}";
         val apiError =
                 new ApiErrorDTO(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
 
