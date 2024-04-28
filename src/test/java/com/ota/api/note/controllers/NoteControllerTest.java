@@ -99,4 +99,27 @@ public class NoteControllerTest {
                 .andExpect(jsonPath("$.title", is("Sample Title")))
                 .andExpect(jsonPath("$.body", is("Sample Body")));
     }
+
+    @Test
+    public void NoteController_CreateNote_ReturnCreated() throws Exception {
+        NoteForm sampleNoteForm = new NoteForm();
+        sampleNoteForm.setTitle("A really super duper important note!");
+        sampleNoteForm.setBody("Let's go eat some ice cream!");
+
+        NoteDTO sampleNoteDTO = NoteDTO.builder()
+                .title(sampleNoteForm.getTitle())
+                .body(sampleNoteForm.getBody())
+                .build();
+
+        when(noteService.create(any(NoteDTO.class))).thenReturn(sampleNoteDTO);
+
+        mockMvc.perform(post("/api/notes/")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(sampleNoteForm)))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.title", is("A really super duper important note!")))
+                .andExpect(jsonPath("$.body", is("Let's go eat some ice cream!")));
+    }
 }
