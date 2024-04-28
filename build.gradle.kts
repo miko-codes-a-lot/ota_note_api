@@ -34,6 +34,10 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
+tasks.bootRun {
+    jvmArgs("--enable-preview")
+}
+
 tasks.withType<JavaCompile> {
     options.compilerArgs.add("--enable-preview")
 }
