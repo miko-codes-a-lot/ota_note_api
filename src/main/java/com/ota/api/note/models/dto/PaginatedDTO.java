@@ -12,8 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaginatedDTO<T> {
-    private List<T> data;
-    private int currentPage;
+    private List<T> items;
+    private int pageIndex;
     private int totalPages;
     private long totalItems;
 }
