@@ -57,14 +57,19 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     ) {
         List<String> errors = new ArrayList<>();
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
-            errors.add(STR."\{error.getField()}: \{error.getDefaultMessage()}");
+            errors.add(error.getDefaultMessage());
         }
         for (ObjectError error : ex.getBindingResult().getGlobalErrors()) {
-            errors.add(STR."\{error.getObjectName()}: \{error.getDefaultMessage()}");
+            errors.add(error.getDefaultMessage());
         }
 
-        val apiError = new ApiErrorDTO(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
-        return handleExceptionInternal(ex, ex.getBindingResult(), headers, apiError.getStatus(), request);
+        val apiError = new ApiErrorDTO(HttpStatus.BAD_REQUEST, "Invalid data", errors);
+
+        return Response.builder()
+                .body(apiError)
+                .headers(new HttpHeaders())
+                .status(apiError.getStatus())
+                .build();
     }
 
     /**
