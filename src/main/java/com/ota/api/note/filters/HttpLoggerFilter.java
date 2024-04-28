@@ -2,6 +2,7 @@ package com.ota.api.note.filters;
 
 import com.ota.api.note.Config;
 import com.ota.api.note.models.dto.LogDTO;
+import com.ota.api.note.services.LogService;
 import com.ota.api.note.spring.CachedBodyHttpServletRequest;
 import com.ota.api.note.spring.CachedBodyHttpServletResponse;
 import jakarta.annotation.Nonnull;
@@ -41,6 +42,7 @@ import static com.ota.api.note.utils.JSONUtils.stringify;
 @WebFilter(filterName = "ContentCachingFilter", urlPatterns = "/*")
 public class HttpLoggerFilter extends OncePerRequestFilter {
     private final Config config;
+    private final LogService logService;
 
     /**
      * Constructs an instance of {@link HttpLoggerFilter} with the specified {@link Config}.
@@ -48,8 +50,9 @@ public class HttpLoggerFilter extends OncePerRequestFilter {
      * @param config The environment configuration.
      */
     @Autowired
-    public HttpLoggerFilter(Config config) {
+    public HttpLoggerFilter(Config config, LogService logService) {
         this.config = config;
+        this.logService = logService;
     }
 
     /**
@@ -77,10 +80,10 @@ public class HttpLoggerFilter extends OncePerRequestFilter {
 
         cachedResponse.flushBuffer();
 
-        // Log the request
+        // Log the request in console + db
         val tracingId = cachedRequest.getAttribute(config.tracingIdKey()).toString();
         val logDTO = LogDTO.builder()
-                .id(tracingId)
+                .tracingId(tracingId)
                 .ipAddress(cachedRequest.getRemoteAddr())
                 .method(cachedRequest.getMethod())
                 .path(cachedRequest.getRequestURI())
@@ -89,6 +92,9 @@ public class HttpLoggerFilter extends OncePerRequestFilter {
                 .responseBody(cachedResponse.getBody())
                 .timestamp(Instant.now().toString())
                 .build();
+
+        // Save the log in the db for simplicity's sake
+        this.logService.write(logDTO);
         logger.info(stringify(logDTO));
     }
 }
