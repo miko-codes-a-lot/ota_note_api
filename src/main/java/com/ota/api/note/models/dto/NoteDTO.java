@@ -13,4 +13,6 @@ public class NoteDTO {
     private long id;
     private String title;
     private String body;
+    private String dateCreated;
+    private String dateUpdated;
 }
