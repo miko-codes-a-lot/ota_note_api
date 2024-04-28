@@ -2,6 +2,8 @@
 
 This project is a simple implementation of a RESTful API with in-memory database using Spring Boot, inspired by Uncle Bob's Clean Architecture principles.
 
+The repository setup is very simple, no git flow constraint and CI/CD in place, I have mostly focused on trying to create a clean foundation in the hopes to scale this project one day.
+
 ## Getting Started
 
 To get started with this project, ensure you have the following installed:
