@@ -9,7 +9,6 @@ import com.ota.api.note.models.dto.PaginatedDTO;
 import com.ota.api.note.models.entity.Note;
 import com.ota.api.note.repositories.NoteRepository;
 import com.ota.api.note.spring.PageRequestBuilder;
-import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Service
 public class NoteServiceImpl implements NoteService {
     private final NoteRepository noteRepository;
