@@ -24,9 +24,11 @@ user@laptop:~$ cd ota_note_api
 user@laptop:~/ota_note_api$ idea .
 ```
 
-_Please do reach out to me if you have trouble setting up the project!
+_Please do reach out to me if you have trouble setting up the project!_
 
 ### Swagger UI - running HTTP Requests
+
+http://localhost:8080/swagger-ui/
 
 ![OpenAPI](https://gcdnb.pbrd.co/images/gn7v3g2HwSL6.png)
 
