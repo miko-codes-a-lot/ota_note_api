@@ -71,6 +71,12 @@ public class HttpLoggerFilter extends OncePerRequestFilter {
             @Nonnull HttpServletResponse httpServletResponse,
             @Nonnull FilterChain filterChain
     ) throws ServletException, IOException {
+        String excludePattern = "/swagger-ui|/v3/api-docs";
+        if (httpServletRequest.getRequestURI().matches(STR.".*(\{excludePattern}).*")) {
+            filterChain.doFilter(httpServletRequest, httpServletResponse);
+            return;
+        }
+
         // InputStream & OutputStream can only be read once as such we have to wrap them
         val cachedRequest = new CachedBodyHttpServletRequest(httpServletRequest);
         val cachedResponse = new CachedBodyHttpServletResponse(httpServletResponse);
