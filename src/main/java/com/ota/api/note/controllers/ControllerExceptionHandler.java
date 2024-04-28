@@ -1,6 +1,7 @@
 package com.ota.api.note.controllers;
 
-import com.ota.api.note.exceptions.NotFound;
+import com.ota.api.note.errors.NotFoundError;
+import com.ota.api.note.errors.SimpleError;
 import com.ota.api.note.models.dto.ApiErrorDTO;
 import com.ota.api.note.spring.Response;
 import jakarta.validation.ConstraintViolation;
@@ -150,15 +151,33 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     /**
-     * Handles {@link NotFound} by building a user-friendly error response.
+     * Handles {@link NotFoundError} by building a user-friendly error response.
      *
-     * @param ex      The {@link NotFound} thrown
+     * @param ex      The {@link NotFoundError} thrown
      * @return {@link ResponseEntity} with error details
      */
-    @ExceptionHandler({ NotFound.class })
-    public ResponseEntity<Object> handleResourceNotFound(NotFound ex) {
+    @ExceptionHandler({ NotFoundError.class })
+    public ResponseEntity<Object> handleResourceNotFound(NotFoundError ex) {
         val message = ex.getLocalizedMessage();
         val apiError = new ApiErrorDTO(HttpStatus.NOT_FOUND, message, message);
+
+        return Response.builder()
+                .body(apiError)
+                .headers(new HttpHeaders())
+                .status(apiError.getStatus())
+                .build();
+    }
+
+    /**
+     * Handles {@link SimpleError} by building a user-friendly error response.
+     *
+     * @param ex      The {@link NotFoundError} thrown
+     * @return {@link ResponseEntity} with error details
+     */
+    @ExceptionHandler({ SimpleError.class })
+    public ResponseEntity<Object> handleSimpleError(SimpleError ex) {
+        val message = ex.getLocalizedMessage();
+        val apiError = new ApiErrorDTO(HttpStatus.BAD_REQUEST, message, message);
 
         return Response.builder()
                 .body(apiError)
