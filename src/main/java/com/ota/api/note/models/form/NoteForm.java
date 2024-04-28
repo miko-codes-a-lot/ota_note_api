@@ -10,13 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NoteForm {
-    private long id;
-
     @NotEmpty(message = "Title is required")
     @Size(min = 3, message = "Title must be at least {min} characters long.")
     @Size(max = 60, message = "Title must not exceed {max} characters long.")
     private String title;
-
 
     @NotEmpty(message = "Body is required")
     @Size(min = 3, message = "Body must be at least {min} characters long.")

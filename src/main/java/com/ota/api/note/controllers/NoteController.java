@@ -1,6 +1,5 @@
 package com.ota.api.note.controllers;
 
-import com.ota.api.note.Config;
 import com.ota.api.note.models.dto.ApiErrorDTO;
 import com.ota.api.note.models.dto.NoteDTO;
 import com.ota.api.note.models.dto.PaginateParamsDTO;
@@ -36,15 +35,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/notes")
 public class NoteController {
-    private final Config config;
     private final NoteService noteService;
 
     @Autowired
-    public NoteController(Config config, NoteService noteService) {
-        this.config = config;
+    public NoteController(NoteService noteService) {
         this.noteService = noteService;
     }
-
 
     @Operation(summary = "Get a Note by its id")
     @ApiResponses({
@@ -104,19 +100,18 @@ public class NoteController {
             @ApiResponse(responseCode = "200", description = "Successfully updated the note"),
             @ApiResponse(responseCode = "400", description = "Invalid request body", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorDTO.class)) }),
             @ApiResponse(responseCode = "404", description = "Note not found", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorDTO.class)) }),
-            @ApiResponse(responseCode = "409", description = "Conflict, note exists", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorDTO.class)) }),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorDTO.class)) })
     })
-    @PutMapping("/")
-    public ResponseEntity<NoteDTO> update(@Valid @RequestBody NoteForm noteForm) {
+    @PutMapping("/{id}")
+    public ResponseEntity<NoteDTO> update(@PathVariable Long id, @Valid @RequestBody NoteForm noteForm) {
         val note = NoteDTO.builder()
-                .id(noteForm.getId())
+                .id(id)
                 .title(noteForm.getTitle())
                 .body(noteForm.getBody())
                 .build();
 
         return Response.<NoteDTO>builder()
-                .body(note)
+                .body(this.noteService.update(note))
                 .status(HttpStatus.OK)
                 .build();
     }

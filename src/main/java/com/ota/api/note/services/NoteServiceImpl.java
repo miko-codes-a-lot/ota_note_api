@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,6 +45,26 @@ public class NoteServiceImpl implements NoteService {
                 .body(noteDTO.getBody())
                 .build();
         return noteMapper.toDTO(noteRepository.save(note));
+    }
+
+    @Override
+    public NoteDTO update(NoteDTO noteDTO) {
+        val dateCreated = this.noteRepository.findById(noteDTO.getId())
+                .map(Note::getDateCreated)
+                .orElseThrow(() -> new NotFoundError("Note not found"));
+
+        val note = Note.builder()
+                .id(noteDTO.getId())
+                .title(noteDTO.getTitle())
+                .body(noteDTO.getBody())
+                .dateCreated(dateCreated)
+                .dateUpdated(new Date())
+                .build();
+//        val note = this.noteRepository.findById(noteDTO.getId())
+//                .orElseThrow(() -> new NotFoundError("Note not found"));
+        val saved = noteRepository.save(note);
+        System.out.println(saved);
+        return this.noteMapper.toDTO(saved);
     }
 
     public PaginatedDTO<NoteDTO> findAll(PaginateParamsDTO paginateParams) {
