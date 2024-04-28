@@ -16,7 +16,7 @@ public class Response<T> extends ResponseEntity<T> {
     }
 
     public static <T> ResponseBuilder<T> builder() {
-        return new ResponseBuilder<T>();
+        return new ResponseBuilder<>();
     }
 
     public static class ResponseBuilder<T> {
