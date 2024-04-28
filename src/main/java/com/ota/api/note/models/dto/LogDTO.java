@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LogDTO {
-    private String id;
+    private Long id;
+    private String tracingId;
     private String ipAddress;
     private String method;
     private String path;
