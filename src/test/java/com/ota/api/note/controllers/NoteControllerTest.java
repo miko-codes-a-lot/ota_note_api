@@ -27,8 +27,7 @@ import static com.ota.api.note.utils.DateUtils.toISOString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -60,6 +59,7 @@ public class NoteControllerTest {
                 .toList();
         PaginateParamsDTO params = new PaginateParamsDTO();
 
+        // mock service method return
         when(noteService.findAll(params)).thenReturn(
                 PaginatedDTO.<NoteDTO>builder()
                         .pageIndex(0)
@@ -89,6 +89,7 @@ public class NoteControllerTest {
                 .dateUpdated(toISOString(new Date()))
                 .build();
 
+        // mock service method return
         when(noteService.findOne(anyLong())).thenReturn(note);
 
         mockMvc.perform(get("/api/notes/{id}", 1L))
@@ -111,6 +112,7 @@ public class NoteControllerTest {
                 .body(sampleNoteForm.getBody())
                 .build();
 
+        // mock service method return
         when(noteService.create(any(NoteDTO.class))).thenReturn(sampleNoteDTO);
 
         mockMvc.perform(post("/api/notes/")
@@ -122,4 +124,34 @@ public class NoteControllerTest {
                 .andExpect(jsonPath("$.title", is("A really super duper important note!")))
                 .andExpect(jsonPath("$.body", is("Let's go eat some ice cream!")));
     }
+
+    @Test
+    public void NoteController_UpdateNote_ReturnUpdated() throws Exception {
+        long noteId = 1L;
+
+        // Prepare a sample note form
+        NoteForm sampleNoteForm = new NoteForm();
+        sampleNoteForm.setTitle("Yep you're getting updated...");
+        sampleNoteForm.setBody("I'm the new change around here!");
+
+        NoteDTO sampleNoteDTO = NoteDTO.builder()
+                .id(noteId)
+                .title(sampleNoteForm.getTitle())
+                .body(sampleNoteForm.getBody())
+                .build();
+
+        // mock service method return
+        when(noteService.update(any(NoteDTO.class))).thenReturn(sampleNoteDTO);
+
+        mockMvc.perform(put("/api/notes/{id}", noteId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(sampleNoteForm)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.title", is("Yep you're getting updated...")))
+                .andExpect(jsonPath("$.body", is("I'm the new change around here!")));
+    }
+
 }
