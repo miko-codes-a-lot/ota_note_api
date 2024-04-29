@@ -10,7 +10,7 @@ I have as much as possible decoupled the errors that the clients can receive by 
 
 ![Implementation Testing](https://gcdnb.pbrd.co/images/l1wZX8Z3l09i.png)
 
-_I was supposed to create Unit Tests as well but my time is running out_
+_I wanted to also create Unit Tests as well but my time is running out_
 
 ## Getting Started
 
