@@ -53,10 +53,10 @@ public class NoteController {
     public ResponseEntity<NoteDTO> findById(@PathVariable Long id) {
         val note = this.noteService.findOne(id);
 
-        return new ResponseEntity<>(
-                note,
-                HttpStatus.OK
-        );
+        return Response.<NoteDTO>builder()
+                .status(HttpStatus.OK)
+                .body(note)
+                .build();
     }
 
     @Operation(summary = "Retrieve the notes in paginated format")
