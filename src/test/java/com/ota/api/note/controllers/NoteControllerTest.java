@@ -42,7 +42,7 @@ public class NoteControllerTest {
     private NoteService noteService;
 
     @MockBean
-    private LogService logService;
+    private LogService logService; // this is needed or else the Filters would crash
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
