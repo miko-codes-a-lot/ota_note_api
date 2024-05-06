@@ -60,10 +60,8 @@ public class NoteServiceImpl implements NoteService {
                 .dateCreated(dateCreated)
                 .dateUpdated(new Date())
                 .build();
-//        val note = this.noteRepository.findById(noteDTO.getId())
-//                .orElseThrow(() -> new NotFoundError("Note not found"));
+
         val saved = noteRepository.save(note);
-        System.out.println(saved);
         return this.noteMapper.toDTO(saved);
     }
 
